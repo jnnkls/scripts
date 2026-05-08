@@ -1,298 +1,445 @@
 <!doctype html>
 <html lang="de" class="dark">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title data-i18n="title">fyi.run — schnelle Scripte</title>
-  <meta id="meta-description" name="description" data-i18n="meta_description" data-i18n-attr="content" content="Eine Sammlung kleiner Shell-Scripte zum schnellen Ausf&uuml;hren via curl." />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ctext y='20' font-size='22'%3E%E2%9A%A1%3C/text%3E%3C/svg%3E" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title data-i18n="title">fyi.run — schnelle Scripte</title>
+    <meta
+      id="meta-description"
+      name="description"
+      data-i18n="meta_description"
+      data-i18n-attr="content"
+      content="Eine Sammlung kleiner Shell-Scripte zum schnellen Ausf&uuml;hren via curl."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ctext y='20' font-size='22'%3E%E2%9A%A1%3C/text%3E%3C/svg%3E"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: [
+                "ui-monospace",
+                "SFMono-Regular",
+                "Menlo",
+                "Monaco",
+                "Consolas",
+                "monospace",
+              ],
+            },
           },
         },
-      },
-    };
-  </script>
-  <style>
-    body {
-      background:
-        radial-gradient(900px 500px at 85% -10%, rgba(99,102,241,0.18), transparent 60%),
-        radial-gradient(700px 400px at -10% 10%, rgba(236,72,153,0.10), transparent 55%),
-        #0a0a0b;
-    }
-    .grid-bg::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-      background-size: 40px 40px;
-      mask-image: radial-gradient(ellipse at top, black 30%, transparent 70%);
-      pointer-events: none;
-    }
-  </style>
-</head>
-<body class="min-h-screen text-zinc-200 antialiased font-mono">
-  <div class="grid-bg relative">
-    <header class="max-w-3xl mx-auto px-6 pt-10 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-2 text-zinc-100">
-        <span class="inline-flex h-7 w-7 items-center justify-center rounded-md bg-zinc-900 ring-1 ring-zinc-800 text-indigo-400">
-          &gt;_
-        </span>
-        <span class="font-semibold tracking-tight">fyi.run</span>
-      </a>
-
-      <nav class="flex items-center gap-5 text-xs">
-        <div class="relative" id="lang-switcher">
-          <button
-            id="lang-btn"
-            type="button"
-            aria-haspopup="listbox"
-            aria-expanded="false"
-            aria-label="Sprache ausw&auml;hlen"
-            data-i18n="lang_aria"
-            data-i18n-attr="aria-label"
-            class="flex items-center gap-1.5 text-zinc-500 hover:text-zinc-200 transition"
+      };
+    </script>
+    <style>
+      body {
+        background:
+          radial-gradient(
+            900px 500px at 85% -10%,
+            rgba(99, 102, 241, 0.18),
+            transparent 60%
+          ),
+          radial-gradient(
+            700px 400px at -10% 10%,
+            rgba(236, 72, 153, 0.1),
+            transparent 55%
+          ),
+          #0a0a0b;
+      }
+      .grid-bg::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+        background-size: 40px 40px;
+        mask-image: radial-gradient(ellipse at top, black 30%, transparent 70%);
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen text-zinc-200 antialiased font-mono">
+    <div class="grid-bg relative">
+      <header
+        class="max-w-3xl mx-auto px-6 pt-10 flex items-center justify-between"
+      >
+        <a href="/" class="flex items-center gap-2 text-zinc-100">
+          <span
+            class="inline-flex h-7 w-7 items-center justify-center rounded-md bg-zinc-900 ring-1 ring-zinc-800 text-indigo-400"
           >
-            <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-            <span id="lang-current">DE</span>
-            <svg class="h-3 w-3 opacity-70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <ul
-            id="lang-menu"
-            role="listbox"
-            class="hidden absolute right-0 mt-2 min-w-[8rem] rounded-lg bg-zinc-900/95 backdrop-blur ring-1 ring-zinc-800 shadow-xl shadow-black/40 py-1 z-20"
-          >
-            <li>
-              <button data-lang="de" role="option" class="lang-option w-full text-left px-3 py-1.5 text-zinc-300 hover:bg-zinc-800/80 transition flex items-center justify-between">
-                <span>Deutsch</span>
-                <span class="text-zinc-500 text-[10px]">DE</span>
-              </button>
-            </li>
-            <li>
-              <button data-lang="en" role="option" class="lang-option w-full text-left px-3 py-1.5 text-zinc-300 hover:bg-zinc-800/80 transition flex items-center justify-between">
-                <span>English</span>
-                <span class="text-zinc-500 text-[10px]">EN</span>
-              </button>
-            </li>
-          </ul>
-        </div>
+            &gt;_
+          </span>
+          <span class="font-semibold tracking-tight">fyi.run</span>
+        </a>
 
-        <a href="https://github.com/jnnkls" class="text-zinc-500 hover:text-zinc-200 transition">github</a>
-      </nav>
-    </header>
-
-    <main class="max-w-3xl mx-auto px-6 pt-16 pb-24">
-      <section class="mb-14">
-        <span class="inline-flex items-center gap-2 rounded-full bg-zinc-900/70 ring-1 ring-zinc-800 px-3 py-1 text-xs text-zinc-400">
-          <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
-          <span data-i18n="badge">curl &amp; los</span>
-        </span>
-        <h1 class="mt-4 text-4xl sm:text-5xl font-bold tracking-tight text-zinc-50">
-          <span data-i18n="hero_title_a">Kleine Scripte.</span> <span class="text-zinc-500" data-i18n="hero_title_b">Schnell zur Hand.</span>
-        </h1>
-        <p class="mt-4 text-zinc-400 leading-relaxed max-w-xl" data-i18n="intro">
-          Eine Sammlung an n&uuml;tzlichen Shell-Scripten.
-          Einfach den Befehl kopieren, in die Shell werfen, fertig.
-        </p>
-        <p class="mt-4 text-xs text-zinc-500" data-i18n="disclaimer">
-          Lies dir Scripte vor dem Ausf&uuml;hren immer durch &mdash; auch meine.
-        </p>
-      </section>
-
-      <section>
-        <h2 class="text-xs uppercase tracking-[0.18em] text-zinc-500 mb-4" data-i18n="section_scripts">Scripte</h2>
-
-        <article class="group rounded-xl bg-zinc-900/50 ring-1 ring-zinc-800 hover:ring-zinc-700 transition p-5">
-          <div class="flex items-start justify-between gap-4">
-            <div>
-              <h3 class="text-zinc-100 font-semibold">dirty-frag.sh</h3>
-              <p class="mt-1 text-sm text-zinc-400" data-i18n="dirty_frag_desc">
-                Blockiert die Kernel-Module <code class="text-zinc-300">esp4</code>, <code class="text-zinc-300">esp6</code> und <code class="text-zinc-300">rxrpc</code> da&uuml;rhaft &mdash; Schutz vor der Dirty-Pagetable / Frag-L&uuml;cke. Interaktiv, fragt vor jeder &Auml;nderung nach.
-              </p>
-            </div>
-            <span class="shrink-0 text-[10px] uppercase tracking-wider rounded bg-zinc-800/80 ring-1 ring-zinc-700 px-2 py-1 text-zinc-400">linux &middot; root</span>
-          </div>
-
-          <div class="mt-4 relative">
-            <pre id="cmd-dirty-frag" class="overflow-x-auto rounded-lg bg-black/60 ring-1 ring-zinc-800 px-4 py-3 pr-24 text-sm text-zinc-200"><span class="text-zinc-500">$</span> curl -fsSL https://fyi.run/dirty-frag.sh | sudo sh</pre>
+        <nav class="flex items-center gap-5 text-xs">
+          <div class="relative" id="lang-switcher">
             <button
+              id="lang-btn"
               type="button"
-              data-copy="curl -fsSL https://fyi.run/dirty-frag.sh | sudo sh"
-              class="copy-btn absolute top-1.5 right-1.5 inline-flex items-center gap-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 active:bg-zinc-600 ring-1 ring-zinc-700 px-2.5 py-1.5 text-xs text-zinc-200 transition"
-              aria-label="Befehl kopieren"
-              data-i18n="copy_aria"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-label="Sprache ausw&auml;hlen"
+              data-i18n="lang_aria"
               data-i18n-attr="aria-label"
+              class="flex items-center gap-1.5 text-zinc-500 hover:text-zinc-200 transition"
             >
-              <svg class="icon-copy h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
-              <svg class="icon-check hidden h-3.5 w-3.5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              <span class="label" data-i18n="copy">copy</span>
+              <svg
+                class="h-3.5 w-3.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <path d="M2 12h20" />
+                <path
+                  d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                />
+              </svg>
+              <span id="lang-current">DE</span>
+              <svg
+                class="h-3 w-3 opacity-70"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
             </button>
+            <ul
+              id="lang-menu"
+              role="listbox"
+              class="hidden absolute right-0 mt-2 min-w-[8rem] rounded-lg bg-zinc-900/95 backdrop-blur ring-1 ring-zinc-800 shadow-xl shadow-black/40 py-1 z-20"
+            >
+              <li>
+                <button
+                  data-lang="de"
+                  role="option"
+                  class="lang-option w-full text-left px-3 py-1.5 text-zinc-300 hover:bg-zinc-800/80 transition flex items-center justify-between"
+                >
+                  <span>Deutsch</span>
+                  <span class="text-zinc-500 text-[10px]">DE</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  data-lang="en"
+                  role="option"
+                  class="lang-option w-full text-left px-3 py-1.5 text-zinc-300 hover:bg-zinc-800/80 transition flex items-center justify-between"
+                >
+                  <span>English</span>
+                  <span class="text-zinc-500 text-[10px]">EN</span>
+                </button>
+              </li>
+            </ul>
           </div>
 
-          <div class="mt-3 flex items-center gap-3 text-xs">
-            <a href="/dirty-frag.sh" class="text-zinc-500 hover:text-zinc-200 transition">source</a>
-            <span class="text-zinc-700">&middot;</span>
-            <a href="https://github.com/jnnkls/scripts" class="text-zinc-500 hover:text-zinc-200 transition">github</a>
-          </div>
-        </article>
-      </section>
+          <a
+            href="https://github.com/jnnkls"
+            class="text-zinc-500 hover:text-zinc-200 transition"
+            >github</a
+          >
+        </nav>
+      </header>
 
-      <footer class="mt-16 text-xs text-zinc-600">
-        <p><span data-i18n="footer">made with 💚 by</span> <a href="mailto:me@jnnkls.wtf" class="hover:text-zinc-300 transition">Jani</a></p>
-      </footer>
-    </main>
-  </div>
+      <main class="max-w-3xl mx-auto px-6 pt-16 pb-24">
+        <section class="mb-14">
+          <span
+            class="inline-flex items-center gap-2 rounded-full bg-zinc-900/70 ring-1 ring-zinc-800 px-3 py-1 text-xs text-zinc-400"
+          >
+            <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+            <span data-i18n="badge">curl &amp; los</span>
+          </span>
+          <h1
+            class="mt-4 text-4xl sm:text-5xl font-bold tracking-tight text-zinc-50"
+          >
+            <span data-i18n="hero_title_a">Kleine Scripte.</span>
+            <span class="text-zinc-500" data-i18n="hero_title_b"
+              >Schnell zur Hand.</span
+            >
+          </h1>
+          <p
+            class="mt-4 text-zinc-400 leading-relaxed max-w-xl"
+            data-i18n="intro"
+          >
+            Eine Sammlung an n&uuml;tzlichen Shell-Scripten. Einfach den Befehl
+            kopieren, in die Shell werfen, fertig.
+          </p>
+          <p class="mt-4 text-xs text-zinc-500" data-i18n="disclaimer">
+            Lies dir Scripte vor dem Ausf&uuml;hren immer durch &mdash; auch
+            meine.
+          </p>
+        </section>
 
-  <script>
-    const translations = {
-      de: {
-        title: 'fyi.run — schnelle Scripte',
-        meta_description: 'Eine Sammlung kleiner Shell-Scripte zum schnellen Ausf&uuml;hren via curl.',
-        lang_aria: 'Sprache ausw&auml;hlen',
-        badge: 'curl &amp; los',
-        hero_title_a: 'Kleine Scripte.',
-        hero_title_b: 'Schnell zur Hand.',
-        intro: 'Eine Sammlung an n&uuml;tzlichen Shell-Scripten. Einfach den Befehl kopieren, in die Shell werfen, fertig.',
-        disclaimer: 'Lies dir Scripte vor dem Ausf&uuml;hren immer durch &mdash; auch meine.',
-        section_scripts: 'Scripte',
-        dirty_frag_desc: 'Blockiert die Kernel-Module <code class="text-zinc-300">esp4</code>, <code class="text-zinc-300">esp6</code> und <code class="text-zinc-300">rxrpc</code> da&uuml;rhaft &mdash; Schutz vor der Dirty-Pagetable / Frag-L&uuml;cke. Interaktiv, fragt vor jeder &Auml;nderung nach.',
-        copy: 'copy',
-        copied: 'kopiert',
-        copy_aria: 'Befehl kopieren',
-        footer: 'made with 💚 by',
-      },
-      en: {
-        title: 'fyi.run — quick scripts',
-        meta_description: 'A collection of small shell scripts to run quickly via curl.',
-        lang_aria: 'Select language',
-        badge: 'curl &amp; go',
-        hero_title_a: 'Small scripts.',
-        hero_title_b: 'At your fingertips.',
-        intro: 'A collection of useful shell scripts. Just copy the command, paste it into your shell, done.',
-        disclaimer: 'Always read scripts before running them &mdash; mine included.',
-        section_scripts: 'Scripts',
-        dirty_frag_desc: 'Permanently blocks the kernel modules <code class="text-zinc-300">esp4</code>, <code class="text-zinc-300">esp6</code> and <code class="text-zinc-300">rxrpc</code> &mdash; mitigation for the Dirty-Pagetable / Frag vulnerability. Interactive, asks before any change.',
-        copy: 'copy',
-        copied: 'copied',
-        copy_aria: 'Copy command',
-        footer: 'made with 💚 by',
-      },
-    };
+        <section>
+          <h2
+            class="text-xs uppercase tracking-[0.18em] text-zinc-500 mb-4"
+            data-i18n="section_scripts"
+          >
+            Scripte
+          </h2>
 
-    const STORAGE_KEY = 'fyi.lang';
+          <article
+            class="group rounded-xl bg-zinc-900/50 ring-1 ring-zinc-800 hover:ring-zinc-700 transition p-5"
+          >
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <h3 class="text-zinc-100 font-semibold">dirty-frag.sh</h3>
+                <p
+                  class="mt-1 text-sm text-zinc-400"
+                  data-i18n="dirty_frag_desc"
+                >
+                  Blockiert die Kernel-Module
+                  <code class="text-zinc-300">esp4</code>,
+                  <code class="text-zinc-300">esp6</code> und
+                  <code class="text-zinc-300">rxrpc</code> dauerhaft &mdash;
+                  Schutz vor der Dirty-Pagetable / Frag-L&uuml;cke. Interaktiv,
+                  fragt vor jeder &Auml;nderung nach.
+                </p>
+              </div>
+              <span
+                class="shrink-0 text-[10px] uppercase tracking-wider rounded bg-zinc-800/80 ring-1 ring-zinc-700 px-2 py-1 text-zinc-400"
+                >linux &middot; root</span
+              >
+            </div>
 
-    function detectLang() {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored && translations[stored]) return stored;
-      const langs = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'de']);
-      for (const l of langs) {
-        const code = (l || '').slice(0, 2).toLowerCase();
-        if (translations[code]) return code;
-      }
-      return 'de';
-    }
+            <div class="mt-4 relative">
+              <pre
+                id="cmd-dirty-frag"
+                class="overflow-x-auto rounded-lg bg-black/60 ring-1 ring-zinc-800 px-4 py-3 pr-24 text-sm text-zinc-200"
+              ><span class="text-zinc-500">$</span> curl -fsSL https://fyi.run/dirty-frag.sh | sudo sh</pre>
+              <button
+                type="button"
+                data-copy="curl -fsSL https://fyi.run/dirty-frag.sh | sudo sh"
+                class="copy-btn absolute top-1.5 right-1.5 inline-flex items-center gap-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 active:bg-zinc-600 ring-1 ring-zinc-700 px-2.5 py-1.5 text-xs text-zinc-200 transition"
+                aria-label="Befehl kopieren"
+                data-i18n="copy_aria"
+                data-i18n-attr="aria-label"
+              >
+                <svg
+                  class="icon-copy h-3.5 w-3.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="9" y="9" width="13" height="13" rx="2" />
+                  <path d="M5 15V5a2 2 0 0 1 2-2h10" />
+                </svg>
+                <svg
+                  class="icon-check hidden h-3.5 w-3.5 text-emerald-400"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                <span class="label" data-i18n="copy">copy</span>
+              </button>
+            </div>
 
-    function applyLang(lang, persist) {
-      const dict = translations[lang];
-      if (!dict) return;
-      document.documentElement.lang = lang;
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        const val = dict[key];
-        if (val === undefined) return;
-        const attr = el.getAttribute('data-i18n-attr');
-        if (attr) {
-          const tmp = document.createElement('div');
-          tmp.innerHTML = val;
-          el.setAttribute(attr, tmp.textContent);
-        } else {
-          el.innerHTML = val;
+            <div class="mt-3 flex items-center gap-3 text-xs">
+              <a
+                href="/dirty-frag.sh"
+                class="text-zinc-500 hover:text-zinc-200 transition"
+                >source</a
+              >
+              <span class="text-zinc-700">&middot;</span>
+              <a
+                href="https://github.com/jnnkls/scripts"
+                class="text-zinc-500 hover:text-zinc-200 transition"
+                >github</a
+              >
+            </div>
+          </article>
+        </section>
+
+        <footer class="mt-16 text-xs text-zinc-600">
+          <p>
+            <span data-i18n="footer">made with 💚 by</span>
+            <a
+              href="mailto:me@jnnkls.wtf"
+              class="hover:text-zinc-300 transition"
+              >Jani</a
+            >
+          </p>
+        </footer>
+      </main>
+    </div>
+
+    <script>
+      const translations = {
+        de: {
+          title: "fyi.run — schnelle Scripte",
+          meta_description:
+            "Eine Sammlung kleiner Shell-Scripte zum schnellen Ausf&uuml;hren via curl.",
+          lang_aria: "Sprache ausw&auml;hlen",
+          badge: "curl &amp; los",
+          hero_title_a: "Kleine Scripte.",
+          hero_title_b: "Schnell zur Hand.",
+          intro:
+            "Eine Sammlung an n&uuml;tzlichen Shell-Scripten. Einfach den Befehl kopieren, in die Shell werfen, fertig.",
+          disclaimer:
+            "Lies dir Scripte vor dem Ausf&uuml;hren immer durch &mdash; auch meine.",
+          section_scripts: "Scripte",
+          dirty_frag_desc:
+            'Blockiert die Kernel-Module <code class="text-zinc-300">esp4</code>, <code class="text-zinc-300">esp6</code> und <code class="text-zinc-300">rxrpc</code> dauerhaft &mdash; Schutz vor der Dirty-Pagetable / Frag-L&uuml;cke. Interaktiv, fragt vor jeder &Auml;nderung nach.',
+          copy: "copy",
+          copied: "kopiert",
+          copy_aria: "Befehl kopieren",
+          footer: "made with 💚 by",
+        },
+        en: {
+          title: "fyi.run — quick scripts",
+          meta_description:
+            "A collection of small shell scripts to run quickly via curl.",
+          lang_aria: "Select language",
+          badge: "curl &amp; go",
+          hero_title_a: "Small scripts.",
+          hero_title_b: "At your fingertips.",
+          intro:
+            "A collection of useful shell scripts. Just copy the command, paste it into your shell, done.",
+          disclaimer:
+            "Always read scripts before running them &mdash; mine included.",
+          section_scripts: "Scripts",
+          dirty_frag_desc:
+            'Permanently blocks the kernel modules <code class="text-zinc-300">esp4</code>, <code class="text-zinc-300">esp6</code> and <code class="text-zinc-300">rxrpc</code> &mdash; mitigation for the Dirty-Pagetable / Frag vulnerability. Interactive, asks before any change.',
+          copy: "copy",
+          copied: "copied",
+          copy_aria: "Copy command",
+          footer: "made with 💚 by",
+        },
+      };
+
+      const STORAGE_KEY = "fyi.lang";
+
+      function detectLang() {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored && translations[stored]) return stored;
+        const langs =
+          navigator.languages && navigator.languages.length
+            ? navigator.languages
+            : [navigator.language || "de"];
+        for (const l of langs) {
+          const code = (l || "").slice(0, 2).toLowerCase();
+          if (translations[code]) return code;
         }
-      });
-      const current = document.getElementById('lang-current');
-      if (current) current.textContent = lang.toUpperCase();
-      document.querySelectorAll('.lang-option').forEach(o => {
-        const active = o.getAttribute('data-lang') === lang;
-        o.classList.toggle('text-indigo-300', active);
-        o.classList.toggle('text-zinc-300', !active);
-      });
-      if (persist) localStorage.setItem(STORAGE_KEY, lang);
-    }
-
-    (function initLang() {
-      const lang = detectLang();
-      applyLang(lang, false);
-
-      const btn = document.getElementById('lang-btn');
-      const menu = document.getElementById('lang-menu');
-
-      function closeMenu() {
-        menu.classList.add('hidden');
-        btn.setAttribute('aria-expanded', 'false');
-      }
-      function openMenu() {
-        menu.classList.remove('hidden');
-        btn.setAttribute('aria-expanded', 'true');
+        return "de";
       }
 
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (menu.classList.contains('hidden')) openMenu(); else closeMenu();
-      });
+      function applyLang(lang, persist) {
+        const dict = translations[lang];
+        if (!dict) return;
+        document.documentElement.lang = lang;
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          const key = el.getAttribute("data-i18n");
+          const val = dict[key];
+          if (val === undefined) return;
+          const attr = el.getAttribute("data-i18n-attr");
+          if (attr) {
+            const tmp = document.createElement("div");
+            tmp.innerHTML = val;
+            el.setAttribute(attr, tmp.textContent);
+          } else {
+            el.innerHTML = val;
+          }
+        });
+        const current = document.getElementById("lang-current");
+        if (current) current.textContent = lang.toUpperCase();
+        document.querySelectorAll(".lang-option").forEach((o) => {
+          const active = o.getAttribute("data-lang") === lang;
+          o.classList.toggle("text-indigo-300", active);
+          o.classList.toggle("text-zinc-300", !active);
+        });
+        if (persist) localStorage.setItem(STORAGE_KEY, lang);
+      }
 
-      document.querySelectorAll('.lang-option').forEach(opt => {
-        opt.addEventListener('click', () => {
-          applyLang(opt.getAttribute('data-lang'), true);
-          closeMenu();
+      (function initLang() {
+        const lang = detectLang();
+        applyLang(lang, false);
+
+        const btn = document.getElementById("lang-btn");
+        const menu = document.getElementById("lang-menu");
+
+        function closeMenu() {
+          menu.classList.add("hidden");
+          btn.setAttribute("aria-expanded", "false");
+        }
+        function openMenu() {
+          menu.classList.remove("hidden");
+          btn.setAttribute("aria-expanded", "true");
+        }
+
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (menu.classList.contains("hidden")) openMenu();
+          else closeMenu();
+        });
+
+        document.querySelectorAll(".lang-option").forEach((opt) => {
+          opt.addEventListener("click", () => {
+            applyLang(opt.getAttribute("data-lang"), true);
+            closeMenu();
+          });
+        });
+
+        document.addEventListener("click", (e) => {
+          if (!document.getElementById("lang-switcher").contains(e.target))
+            closeMenu();
+        });
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") closeMenu();
+        });
+      })();
+
+      document.querySelectorAll(".copy-btn").forEach((btn) => {
+        btn.addEventListener("click", async () => {
+          const text = btn.getAttribute("data-copy");
+          try {
+            await navigator.clipboard.writeText(text);
+          } catch {
+            const ta = document.createElement("textarea");
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand("copy");
+            ta.remove();
+          }
+          const copyIcon = btn.querySelector(".icon-copy");
+          const checkIcon = btn.querySelector(".icon-check");
+          const label = btn.querySelector(".label");
+          const lang = document.documentElement.lang || "de";
+          const copiedText =
+            (translations[lang] && translations[lang].copied) || "copied";
+          const copyText =
+            (translations[lang] && translations[lang].copy) || "copy";
+          copyIcon.classList.add("hidden");
+          checkIcon.classList.remove("hidden");
+          label.textContent = copiedText;
+          btn.classList.add("!ring-emerald-700/60");
+          setTimeout(() => {
+            copyIcon.classList.remove("hidden");
+            checkIcon.classList.add("hidden");
+            label.textContent = copyText;
+            btn.classList.remove("!ring-emerald-700/60");
+          }, 1500);
         });
       });
-
-      document.addEventListener('click', (e) => {
-        if (!document.getElementById('lang-switcher').contains(e.target)) closeMenu();
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeMenu();
-      });
-    })();
-
-    document.querySelectorAll('.copy-btn').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        const text = btn.getAttribute('data-copy');
-        try {
-          await navigator.clipboard.writeText(text);
-        } catch {
-          const ta = document.createElement('textarea');
-          ta.value = text;
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand('copy');
-          ta.remove();
-        }
-        const copyIcon = btn.querySelector('.icon-copy');
-        const checkIcon = btn.querySelector('.icon-check');
-        const label = btn.querySelector('.label');
-        const lang = document.documentElement.lang || 'de';
-        const copiedText = (translations[lang] && translations[lang].copied) || 'copied';
-        const copyText = (translations[lang] && translations[lang].copy) || 'copy';
-        copyIcon.classList.add('hidden');
-        checkIcon.classList.remove('hidden');
-        label.textContent = copiedText;
-        btn.classList.add('!ring-emerald-700/60');
-        setTimeout(() => {
-          copyIcon.classList.remove('hidden');
-          checkIcon.classList.add('hidden');
-          label.textContent = copyText;
-          btn.classList.remove('!ring-emerald-700/60');
-        }, 1500);
-      });
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>
