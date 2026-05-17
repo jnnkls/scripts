@@ -267,6 +267,87 @@
               >
             </div>
           </article>
+
+          <article
+            class="group mt-4 rounded-xl bg-zinc-900/50 ring-1 ring-zinc-800 hover:ring-zinc-700 transition p-5"
+          >
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <h3 class="text-zinc-100 font-semibold">komodo-periphery.sh</h3>
+                <p
+                  class="mt-1 text-sm text-zinc-400"
+                  data-i18n="komodo_periphery_desc"
+                >
+                  Installiert oder aktualisiert
+                  <code class="text-zinc-300">Komodo Periphery</code> &mdash;
+                  l&auml;dt das passende Binary f&uuml;r
+                  <code class="text-zinc-300">x86_64</code> /
+                  <code class="text-zinc-300">aarch64</code>, installiert nach
+                  <code class="text-zinc-300">/usr/local/bin/periphery</code>
+                  und startet den systemd-Service neu. Optional Version als
+                  Argument.
+                </p>
+              </div>
+              <span
+                class="shrink-0 text-[10px] uppercase tracking-wider rounded bg-zinc-800/80 ring-1 ring-zinc-700 px-2 py-1 text-zinc-400"
+                >linux &middot; root</span
+              >
+            </div>
+
+            <div class="mt-4 relative">
+              <pre
+                id="cmd-komodo-periphery"
+                class="overflow-x-auto rounded-lg bg-black/60 ring-1 ring-zinc-800 px-4 py-3 pr-24 text-sm text-zinc-200"
+              ><span class="text-zinc-500">$</span> curl -fsSL https://fyi.run/komodo-periphery.sh | sudo sh</pre>
+              <button
+                type="button"
+                data-copy="curl -fsSL https://fyi.run/komodo-periphery.sh | sudo sh"
+                class="copy-btn absolute top-1.5 right-1.5 inline-flex items-center gap-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 active:bg-zinc-600 ring-1 ring-zinc-700 px-2.5 py-1.5 text-xs text-zinc-200 transition"
+                aria-label="Befehl kopieren"
+                data-i18n="copy_aria"
+                data-i18n-attr="aria-label"
+              >
+                <svg
+                  class="icon-copy h-3.5 w-3.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="9" y="9" width="13" height="13" rx="2" />
+                  <path d="M5 15V5a2 2 0 0 1 2-2h10" />
+                </svg>
+                <svg
+                  class="icon-check hidden h-3.5 w-3.5 text-emerald-400"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                <span class="label" data-i18n="copy">copy</span>
+              </button>
+            </div>
+
+            <div class="mt-3 flex items-center gap-3 text-xs">
+              <a
+                href="/komodo-periphery.sh"
+                class="text-zinc-500 hover:text-zinc-200 transition"
+                >source</a
+              >
+              <span class="text-zinc-700">&middot;</span>
+              <a
+                href="https://github.com/jnnkls/scripts"
+                class="text-zinc-500 hover:text-zinc-200 transition"
+                >github</a
+              >
+            </div>
+          </article>
         </section>
 
         <footer class="mt-16 text-xs text-zinc-600">
@@ -299,6 +380,8 @@
           section_scripts: "Scripte",
           dirty_frag_desc:
             'Blockiert die Kernel-Module <code class="text-zinc-300">esp4</code>, <code class="text-zinc-300">esp6</code> und <code class="text-zinc-300">rxrpc</code> dauerhaft &mdash; Schutz vor der Dirty-Pagetable / Frag-L&uuml;cke. Interaktiv, fragt vor jeder &Auml;nderung nach.',
+          komodo_periphery_desc:
+            'Installiert oder aktualisiert <code class="text-zinc-300">Komodo Periphery</code> &mdash; l&auml;dt das passende Binary f&uuml;r <code class="text-zinc-300">x86_64</code> / <code class="text-zinc-300">aarch64</code>, installiert nach <code class="text-zinc-300">/usr/local/bin/periphery</code> und startet den systemd-Service neu. Optional Version als Argument.',
           copy: "copy",
           copied: "kopiert",
           copy_aria: "Befehl kopieren",
@@ -319,6 +402,8 @@
           section_scripts: "Scripts",
           dirty_frag_desc:
             'Permanently blocks the kernel modules <code class="text-zinc-300">esp4</code>, <code class="text-zinc-300">esp6</code> and <code class="text-zinc-300">rxrpc</code> &mdash; mitigation for the Dirty-Pagetable / Frag vulnerability. Interactive, asks before any change.',
+          komodo_periphery_desc:
+            'Installs or updates <code class="text-zinc-300">Komodo Periphery</code> &mdash; downloads the matching binary for <code class="text-zinc-300">x86_64</code> / <code class="text-zinc-300">aarch64</code>, installs to <code class="text-zinc-300">/usr/local/bin/periphery</code> and restarts the systemd service. Optional version as argument.',
           copy: "copy",
           copied: "copied",
           copy_aria: "Copy command",
